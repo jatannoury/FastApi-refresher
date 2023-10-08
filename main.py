@@ -60,3 +60,10 @@ async def update_book(updated_book=Body()):
     for index,value in enumerate(BOOKS):
         if value.get("Title").casefold() == updated_book.get("Title").casefold():
             BOOKS[index] = updated_book
+
+@app.delete("/books/delete_book/{book_title}")
+async def delete_book(book_title:str):
+    for index,value in enumerate(BOOKS):
+        if value.get("Title").casefold() == book_title.casefold():
+            BOOKS.pop(index)
+            break
