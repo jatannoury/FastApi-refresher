@@ -51,12 +51,28 @@ async def read_book(book_id:int):
         if book.id == book_id:
             return book
 
+@app.get("/books/")
+async def read_book_by_rating(book_rating:int):
+    return list(filter(lambda book:book.rating == book_rating,BOOKS))
+
 @app.post("/create-book")
 async def create_book(book_request:BookRequest):
     new_book = Book(**book_request.model_dump())
     BOOKS.append(find_book_id(new_book))
 
 
+@app.put("/books/update_book")
+async def update_book(book:BookRequest):
+    for i in range(len(BOOKS)):
+        if BOOKS[i].id == book.id:
+            BOOKS[i] = book
+
+@app.delete("/books/{book_id}")
+async def delete_book(book_id: int):
+    for i in range(len(BOOKS)):
+        if BOOKS[i].id == book_id:
+            BOOKS.pop(i)
+            break
 
 def find_book_id(book:Book):
     book.id = 1 if len(BOOKS) == 0 else BOOKS[-1].id + 1
