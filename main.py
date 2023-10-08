@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import Body,FastAPI
 
 app = FastAPI()
 
@@ -51,3 +51,6 @@ async def read_author_category_by_query(book_author: str,category: str):
     print(category)
     return list(filter(lambda element:element['Author'].casefold() == book_author.casefold() and element['Category'].casefold() == category.casefold(),BOOKS))
 
+@app.post("/books/create_book")
+async def create_book(new_book=Body()):
+    BOOKS.append(new_book)
