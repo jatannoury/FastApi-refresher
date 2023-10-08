@@ -3,6 +3,7 @@ import models
 from database import engine
 from routers import auth,todos
 
+
 app = FastAPI()
 
 app.include_router(auth.router)
